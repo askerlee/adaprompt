@@ -3051,10 +3051,18 @@ class LatentDiffusion(DDPM):
                                     #12: 1.,
                                     16: 1., 17: 1.,
                                     18: 1.,
-                                    19: 1., 20: 1., 
-                                    21: 1., 22: 1., 
-                                    23: 1., 24: 1., 
+                                    19: 1.,   20: 0.5, 
+                                    21: 0.5,  22: 0.5, 
+                                    23: 0.25, 24: 0.25, 
                                    }
+        # 16-18: feature maps 16x16.
+        # 19-21: feature maps 32x32.
+        # 22-24: feature maps 64x64.
+        # The weight is inversely proportional to the feature map size of the layer 
+        # below each layer, which the current layer is resized to.
+        # The larger the feature map, the more details the layer captures, and 
+        # fg/bg loss hurts more high-frequency details, therefore it has a smalll weight.
+                        
         attn_align_xlayer_maps = { 16: 12, 17: 16, 18: 17, 19: 18, 
                                    20: 19, 21: 20, 22: 21, 23: 22, 24: 23 }
 
